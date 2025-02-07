@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { ButtonTrailer } from "./ButtonTrailer";
 
+
 import {
   Carousel,
   CarouselContent,
@@ -12,18 +13,24 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "./ui/button";
 import { StarIcon } from "@/assets/svg/star-icon";
+import { useRouter } from "next/navigation";
 
 type Movie = {
-  id: number;
+  id: string;
   backdrop_path: string;
   vote_average: number;
   original_title: string;
   overview: string;
 };
+type carouselKey = {
+  e: number;
+}
 const movieApiKey = "db430a8098715f8fab36009f57dff9fb";
 
 export function CarouselDemo() {
   const [movie, setMovieData] = useState<Movie[]>([]);
+
+  const router = useRouter()
 
   const movieData = async () => {
     try {
@@ -37,7 +44,9 @@ export function CarouselDemo() {
       console.log(error);
     }
   };
-
+const handleClick = (e:string) =>{
+router.push(`detail/${e}`)
+}
   useEffect(() => {
     movieData();
   }, []);
@@ -48,7 +57,7 @@ export function CarouselDemo() {
         <CarouselContent>
           {movie.map((movies, index) => (
             <CarouselItem className="" key={`carousel-movie-${index}`}>
-              <div className="relative flex items-center">
+              <div className="relative flex items-center" onClick={()=> handleClick(movies.id)}>
                 <img
                   className="w-screen h-[500px] object-cover"
                   src={`https://image.tmdb.org/t/p/original${movies.backdrop_path}`}

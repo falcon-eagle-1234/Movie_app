@@ -44,7 +44,7 @@ export default function Movie(props: props) {
 
   const onclickHandle = () => {
     const category = props.movieName
-    router.push(`/${category}`);
+    router.push(`movie/${category}`);
   };
 
   useEffect(() => {

@@ -55,8 +55,8 @@ export default function Movie(props: props) {
       <div className="flex justify-center py-[52px]">
         <div className="w-[1280px]">
           <div className="flex justify-between">
-            <p className="text-[24px]">{props.title}</p>
-            <p onClick={() => onclickHandle()} className="flex items-center gap-[10px] text-[14px]">
+            <p className="text-[24px] font-bold">{props.title}</p>
+            <p onClick={() => onclickHandle()} className="flex font-bold items-center gap-[10px] text-[14px]">
               See more <RightChevron />
             </p>
           </div>
@@ -72,7 +72,7 @@ export default function Movie(props: props) {
                   <div className="rounded-b-lg bg-[#e5e7eb] p-4">
                     <p className="flex items-center gap-[5px]">
                       <StarIcon />
-                      {movie.vote_average}
+                      {movie.vote_average.toFixed(1)}
                       <span className="text-xs text-[#71717A]">/10</span>
                     </p>
                     <p className="text-xl py-2 text-wrap">

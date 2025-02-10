@@ -6,15 +6,8 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { StarIcon } from "@/assets/svg/star-icon";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { PaginationDemo } from "@/components/Paginations";
+
 
 type movieType = {
   vote_average: string;
@@ -22,28 +15,24 @@ type movieType = {
   poster_path: string;
   original_title: string;
 };
+type props = {
+  pagenumber: number;
+}
 
-export default function MovieHome() {
+export default function MovieHome(pageNumber: number) {
   const [movieType, setMovieType] = useState<movieType[]>([]);
-  const [pageNumber, setPageNumber] = useState(1)
+  
   const params = useParams();
   console.log(params.home);
   const movieApiKey = "db430a8098715f8fab36009f57dff9fb";
 
-  const onclickHandle = (e: number) => {
-    let page_number = 1;
-     page_number = page_number + e;
-     console.log(page_number);
-     
-     setPageNumber(page_number)
-   }
-console.log(pageNumber);
+
 
 
   const movieApi = async () => {
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${params.home}?language=en-US&page=${pageNumber}&api_key=${movieApiKey}`
+        `https://api.themoviedb.org/3/movie/${params.home}?language=en-US&page=50&api_key=${movieApiKey}`
       );
       const result = await response.json();
       const results = result.results;
@@ -93,30 +82,7 @@ console.log(pageNumber);
               </Link>
             ))}
           </div>
-          <div  >
-            <Pagination >
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious href="" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink onClick={() => onclickHandle(0)} href="">{pageNumber}</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink onClick={() => onclickHandle(1)} href="#">{pageNumber + 1}</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink onClick={() => onclickHandle(2)} href="#">{pageNumber + 2}</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
+          <PaginationDemo/>
         </div>
       </div>
 

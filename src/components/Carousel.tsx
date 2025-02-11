@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { ButtonTrailer } from "./ButtonTrailer";
+import Autoplay from 'embla-carousel-autoplay'
 
 
 import {
@@ -39,29 +40,42 @@ export function CarouselDemo() {
       );
       const result = await response.json();
       const movies = result.results;
+      
       setMovieData(movies);
+      console.log(movies);
+      
     } catch (error) {
       console.log(error);
     }
   };
+
+  
+  console.log(movie);
+  
 const handleClick = (e:string) =>{
 router.push(`detail/${e}`)
 }
   useEffect(() => {
     movieData();
+    
   }, []);
 
   return (
     <div className="py-[20px]">
-      <Carousel>
-        <CarouselContent>
+      <Carousel
+       plugins={[Autoplay({ delay: 5000 })]}
+       opts={{
+         loop: true,
+       }}>
+        <CarouselContent className="relative">
           {movie.map((movies, index) => (
             <CarouselItem className="" key={`carousel-movie-${index}`}>
-              <div className="relative flex items-center" onClick={()=> handleClick(movies.id)}>
+              <div className="relative flex items-center">
                 <img
                   className="w-screen h-[500px] object-cover"
                   src={`https://image.tmdb.org/t/p/original${movies.backdrop_path}`}
                   alt=""
+                  onClick={()=> handleClick(movies.id)}
                 />
                 <div className="text-white absolute pl-[150px]">
                   <p>Now playing:</p>
@@ -73,14 +87,14 @@ router.push(`detail/${e}`)
                   <p className="w-[300px] h-[100px] overflow-hidden my-4">
                     {movies.overview}
                   </p>
-                  <ButtonTrailer />
+                  <ButtonTrailer  trailerID={movies.id}/>
                 </div>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="absolute left-12 top-1/2 -translate-y-1/2" />
+        <CarouselNext className="absolute top-1/2 right-[100px]"/>
       </Carousel>
     </div>
   );

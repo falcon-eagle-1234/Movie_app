@@ -1,19 +1,16 @@
 import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-  } from "@/components/ui/pagination"
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
- 
-  
-  export function PaginationDemo() {
-
-    
-    return (
+export function PaginationDemo() {
+  return (
+    <div>
       <Pagination>
         <PaginationContent>
           <PaginationItem>
@@ -28,7 +25,7 @@ import {
             </PaginationLink>
           </PaginationItem>
           <PaginationItem>
-            <PaginationLink href="#" >3</PaginationLink>
+            <PaginationLink href="#">3</PaginationLink>
           </PaginationItem>
           <PaginationItem>
             <PaginationEllipsis />
@@ -38,6 +35,6 @@ import {
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-    )
-  }
-  
+    </div>
+  );
+}

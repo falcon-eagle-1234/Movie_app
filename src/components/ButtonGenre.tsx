@@ -9,11 +9,11 @@ import {
 import { log } from "console";
 import { ChevronDown, ChevronRight} from "lucide-react";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type genres = {
   name: string;
-  id: number; 
+  id: string; 
 }
 
 export  function ButtonDemo() {
@@ -36,6 +36,19 @@ export  function ButtonDemo() {
   };
 
   console.log(genres);
+  const searchParams = useSearchParams()
+  const genreID = searchParams.get("genreid")
+  ? searchParams.get("genreid")?.split(",")
+  : [];
+  const router = useRouter();
+  const genrePage = (id:string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    genreID?.push(id)
+    if (genreID) {
+      params.set("genreid", genreID?.join(","));
+    }
+    router.push(`/genres?${params}`)
+  }
   
 
   useEffect(()=> {
@@ -45,12 +58,14 @@ export  function ButtonDemo() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center gap-3 text-[14px]">
-        <ChevronDown size={16} />
-        Genre
+      <DropdownMenuTrigger >
+      <div className="flex border rounded-md px-4 py-2 text-sm items-center h-9 gap-1">
+          <ChevronDown size={16} />
+          <p>Genres</p>
+        </div>
       </DropdownMenuTrigger>
       <div className="">
-      <DropdownMenuContent>
+      <DropdownMenuContent  align="start">
         <DropdownMenuLabel>
           <p className="text-2xl">Genres</p>
           <p className="">See lists of movies by genre</p>
@@ -58,9 +73,9 @@ export  function ButtonDemo() {
         <DropdownMenuSeparator />
        <div className="flex  grid-cols-4 grid">
        {genres.map((genre, index) => (
-        <Link key={index} href={`genres/${genre.id}`}>
-        <DropdownMenuItem >{genre.name} <ChevronRight/></DropdownMenuItem>
-        </Link>
+        
+        <DropdownMenuItem key={index} onClick={()=>genrePage(genre.id)} className="border rounded-r-full rounded-l-full w-fit p-1 m-1 px-2">{genre.name} <ChevronRight/></DropdownMenuItem>
+      
           
         ))}
        </div>

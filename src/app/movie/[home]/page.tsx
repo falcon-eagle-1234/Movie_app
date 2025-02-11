@@ -32,7 +32,7 @@ export default function MovieHome(pageNumber: number) {
   const movieApi = async () => {
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${params.home}?language=en-US&page=50&api_key=${movieApiKey}`
+        `https://api.themoviedb.org/3/movie/${params.home}?language=en-US&page=5&api_key=${movieApiKey}`
       );
       const result = await response.json();
       const results = result.results;
@@ -68,7 +68,7 @@ export default function MovieHome(pageNumber: number) {
                     src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                     alt=""
                   />
-                  <div className="rounded-b-lg bg-[#e5e7eb] p-4">
+                  <div className="rounded-b-lg bg-secondary bg-[#e5e7eb] p-4">
                     <p className="flex items-center gap-[5px]">
                       <StarIcon />
                       {movie.vote_average}

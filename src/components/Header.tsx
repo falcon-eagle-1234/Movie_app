@@ -3,6 +3,7 @@ import { ButtonDemo } from "./ButtonGenre";
 import { InputDemo } from "./Input";
 import Link from "next/link";
 import { Moon } from "lucide-react";
+import ThemeIcon from "./ThhemeIcon";
 
 export default function Header() {
   return (
@@ -21,7 +22,7 @@ export default function Header() {
             <InputDemo />
           </div>
           <button className="w-[36px] h-[36px] flex justify-center items-center rounded-lg border-solid border-[#E4E4E7] border">
-            <Moon/>
+            <ThemeIcon/>
           </button>
         </div>
       </header>

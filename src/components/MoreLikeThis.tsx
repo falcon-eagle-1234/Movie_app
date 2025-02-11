@@ -62,7 +62,7 @@ export default function MoreLikeThis(props: props){
                     src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                     alt=""
                   />
-                  <div className="rounded-b-lg bg-[#e5e7eb] p-4">
+                  <div className="rounded-b-lg bg-[#e5e7eb] bg-secondary p-4">
                     <p className="flex items-center gap-[5px]">
                       <StarIcon />
                       {movie.vote_average}

@@ -61,8 +61,8 @@ export function ButtonTrailer(trailerID: trailer) {
               
             </DialogDescription>
           </DialogHeader>
-          {/* <ReactPlayer  url={`https://www.youtube.com/watch?v=${trailerKey}`} /> */}
-          <iframe className="w-[1000px] h-[500px]" src={`https://www.youtube.com/embed/${trailerKey}`} allowFullScreen ></iframe>
+          <ReactPlayer  url={`https://www.youtube.com/watch?v=${trailerKey}`} />
+          {/* <iframe className="w-[1000px] h-[500px]" src={`https://www.youtube.com/embed/${trailerKey}`} allowFullScreen ></iframe> */}
         </DialogContent>
       </Dialog>
     </>

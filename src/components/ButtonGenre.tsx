@@ -9,7 +9,7 @@ import {
 import { log } from "console";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type genres = {
   name: string;
@@ -19,6 +19,9 @@ type genres = {
 export function ButtonDemo() {
   const [genres, setGenres] = useState<genres[]>([]);
   const movieApiKey = "db430a8098715f8fab36009f57dff9fb";
+  const pathName = usePathname()
+ 
+  
   const genreList = async () => {
     try {
       const response = await fetch(
@@ -27,7 +30,7 @@ export function ButtonDemo() {
 
       const result = await response.json();
       const genres = result.genres;
-      console.log(genres);
+      
       setGenres(genres);
     } catch (error) {
       console.log(error);
@@ -36,30 +39,41 @@ export function ButtonDemo() {
 
   console.log(genres);
   const searchParams = useSearchParams();
+  console.log();
+  
   const genreID = searchParams.get("genreid")? searchParams.get("genreid")?.split(",") : [];
   const router = useRouter();
+  console.log(genreID);
+  
   const genrePage = (id: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    console.log(params);
     
-    genreID?.push(id);
-    if (genreID) {
-      params.set("genreid", genreID?.join(","));
-      console.log(params);
-      console.log(genreID);
+    
+    if(genreID){
+      // console.log(genreID[0]);
+      // console.log(id.toString());
       
       
+    const updatedGenres = genreID.includes(id.toString())
+        ? genreID.filter((genre: string) => genre !== id.toString())
+        : [...genreID, id];
+    
+    
+        params.set("genreid", updatedGenres.join(","));
+        router.push(`/genres?${params}`);
     }
-    router.push(`/genres?${params}`);
+  
+    
   
     
   };
 
-  console.log(genreID);
+
   
 
   useEffect(() => {
     genreList();
+    
   }, []);
 
   return (
@@ -82,7 +96,7 @@ export function ButtonDemo() {
               <DropdownMenuItem
                 key={index}
                 onClick={() => genrePage(genre.id)}
-                className="border rounded-r-full rounded-l-full w-fit p-1 m-1 px-2"
+                className={`${genreID?.includes(genre.id.toString()) ? "bg-black text-white" : "bg-white text-black"}border rounded-r-full rounded-l-full w-fit p-1 m-1 px-2`}
               >
                 {genre.name} <ChevronRight />
               </DropdownMenuItem>

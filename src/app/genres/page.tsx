@@ -5,12 +5,13 @@ import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { log } from "console";
+import { useRouter } from "next/navigation";
 
 type genres = {
   name: string;
-  id: number;
+  id: string;
 };
 type Movie = {
   id: number;
@@ -20,10 +21,13 @@ type Movie = {
 
 export default function Genres() {
   const [genres, setGenres] = useState<genres[]>([]);
-  const {genreid} = useParams()
-  console.log({genreid});
-  const [genreID, setGenreID] = useState<number[]>([])
+  const router = useRouter()
+  
+  
+  // const [genreID, setGenreID] = useState<number[]>([])
   const [movieGenre, setMovieGenre] = useState<Movie[]>([])
+
+
    
   const movieApiKey = "db430a8098715f8fab36009f57dff9fb";
   const genreList = async () => {
@@ -35,17 +39,20 @@ export default function Genres() {
 
       const result = await response.json();
       const genres = result.genres;
-      console.log(genres);
+      
       setGenres(genres);
     } catch (error) {
       console.log(error);
     }
   };
+const searchParams = useSearchParams()
+const genreID = searchParams.get("genreid")?searchParams.get("genreid")?.split(","):[];
+
 
 
 
   const genreMovieAll = async () => {
-    if (genreID.length === 0) return;
+    if (genreID){;
     try {
       const response =  await fetch(`https://api.themoviedb.org/3/discover/movie?language=en&with_genres=${genreID.join(",")}&page=1&api_key=${movieApiKey}`)
       const result = await response.json();
@@ -58,30 +65,46 @@ export default function Genres() {
       
     }
   }
+  }
 
-  console.log(movieGenre);
+console.log(genreID);
+
+
+
+const handleGenreAdd = (id: string) => {
+  const params = new URLSearchParams(searchParams.toString());
+  
+  
+  
+  if(genreID){
+    // console.log(genreID[0]);
+    // console.log(id.toString());
+    
+    
+  const updatedGenres = genreID.includes(id.toString())
+      ? genreID.filter((genre: string) => genre !== id.toString())
+      : [...genreID, id];
+  
+  
+      params.set("genreid", updatedGenres.join(","));
+      router.push(`/genres?${params}`);
+  }
+
+  
+};
+
   
 
-  const handleGenreAdd = (id: number) => {
-    setGenreID((prev) =>
-      prev.includes(id) ? prev.filter((g) => g !== id) : [...prev, id]
-    );
-  };
-
-  console.log(genreID.join(","));
-  console.log(genreID);
-
+console.log(genreID);
 
   useEffect(() => {
-    genreList();
+   
     genreMovieAll();
-  }, [genreID]);
+  }, [searchParams]);
   
-  // useEffect(() => {
-  //   if (genreid) {
-  //     setGenreID([Number(genreid)]);
-  //   }
-  // }, [genreid]);
+  useEffect(()=> {
+    genreList();
+  },[])
   return (
     <>
       <Header />
@@ -99,7 +122,7 @@ export default function Genres() {
                 <div className="flex  grid-cols-3 border-r-[2px] border-solid grid">
                   {genres.map((genre, index) => (
                     
-                      <p key={index} onClick={() => handleGenreAdd(genre.id)} className=" border gap-10px w-fit py-1 px-2 my-[5px] rounded-l-full  rounded-r-full flex items-center gap-1 text-[12px] font-bold">
+                      <p key={index} onClick={() => handleGenreAdd(genre.id)} className={`${genreID?.includes(genre.id.toString()) ? "bg-black text-white" : "bg-white text-black"} border gap-10px w-fit py-1 px-2 my-[5px] rounded-l-full  rounded-r-full flex items-center gap-1 text-[12px] font-bold`}>
 
                         {genre.name}
                         <ChevronRight size={12} />

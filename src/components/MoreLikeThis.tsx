@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link";
 import { StarIcon } from "@/assets/svg/star-icon";
 import RightChevron from "@/assets/RightChevron";
+import { usePathname, useRouter } from "next/navigation";
 
 type props = {
     id: string | string[] | undefined;
@@ -21,6 +22,10 @@ const movieApiKey = "db430a8098715f8fab36009f57dff9fb";
 export default function MoreLikeThis(props: props){
 
     const [moreLikeMovie, setMoreLikeMovie] = useState<MoreLikeThisMovie[]>([])
+    const router = useRouter()
+    const pathName = usePathname()
+    console.log(props.id);
+    
 
     const moreLikeMovieFunction = async() => {
         try {
@@ -40,6 +45,10 @@ export default function MoreLikeThis(props: props){
             
         }
     }
+
+    const seeMoreChangePage= () => {
+      return(router.push(`/moremovie/${props.id}`))
+    }
 // console.log(props.key);
 
     console.log( moreLikeMovie);
@@ -51,7 +60,7 @@ export default function MoreLikeThis(props: props){
         <>
         <div className="flex justify-between">
         <p className="text-[30px] font-bold">More like this</p>
-        <p className="flex gap-[10px] items-center">See more <RightChevron/></p>
+        <p onClick={() => seeMoreChangePage()} className="flex gap-[10px] items-center">See more <RightChevron/></p>
         </div>
         <div className="grid grid-flow-col grid-rows-1 gap-[20px] mt-6 pb-[100px]">
             {moreLikeMovie.slice(0, 5).map((movie, index) => (
@@ -65,7 +74,7 @@ export default function MoreLikeThis(props: props){
                   <div className="rounded-b-lg bg-[#e5e7eb] bg-secondary p-4">
                     <p className="flex items-center gap-[5px]">
                       <StarIcon />
-                      {movie.vote_average}
+                      {movie.vote_average.toFixed(1)}
                       <span className="text-xs text-[#71717A]">/10</span>
                     </p>
                     <p className="text-xl py-2 text-wrap">

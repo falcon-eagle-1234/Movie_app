@@ -64,7 +64,7 @@ export default function PageMovie(){
                       src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                       alt=""
                     />
-                    <div className="rounded-b-lg bg-secondary bg-[#e5e7eb] p-4">
+                    <div className="rounded-b-lg bg-secondary bg-[#e5e7eb] h-[96px] p-4">
                       <p className="flex items-center gap-[5px]">
                         <StarIcon />
                         {movie.vote_average}

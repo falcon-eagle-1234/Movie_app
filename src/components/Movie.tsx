@@ -60,7 +60,7 @@ export default function Movie(props: props) {
               See more <RightChevron />
             </p>
           </div>
-          <div className="grid grid-flow-col grid-rows-2 gap-[20px] mt-6">
+          <div className="grid grid-flow-col  grid-rows-2 gap-[20px] mt-6">
             {Movie.slice(0, 10).map((movie, index) => (
               <Link key={`poster-img${index}`} href={`detail/${movie.id}`}>
                 <div className="w-full">
@@ -69,13 +69,13 @@ export default function Movie(props: props) {
                     src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                     alt=""
                   />
-                  <div className="rounded-b-lg bg-[#e5e7eb] bg-secondary p-4">
+                  <div className="rounded-b-lg bg-[#e5e7eb] w-full h-[96px] bg-secondary p-2 ">
                     <p className="flex items-center gap-[5px]">
                       <StarIcon />
                       {movie.vote_average.toFixed(1)}
                       <span className="text-xs text-[#71717A]">/10</span>
                     </p>
-                    <p className="text-xl py-2 text-wrap">
+                    <p className="text-xl py-1 ">
                       {movie.original_title}
                     </p>
                   </div>

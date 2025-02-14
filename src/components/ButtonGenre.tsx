@@ -96,7 +96,7 @@ export function ButtonDemo() {
               <DropdownMenuItem
                 key={index}
                 onClick={() => genrePage(genre.id)}
-                className={`${genreID?.includes(genre.id.toString()) ? "bg-black text-white" : "bg-white text-black"}border rounded-r-full rounded-l-full w-fit p-1 m-1 px-2`}
+                className={`${genreID?.includes(genre.id.toString()) ? "bg-black text-white hover:bg-black": "bg-white text-black"}border rounded-r-full rounded-l-full w-fit p-1 m-1 px-2`}
               >
                 {genre.name} <ChevronRight />
               </DropdownMenuItem>

@@ -31,6 +31,8 @@ export default function Header() {
     });
   }, [value]);
 
+  const handleClick = () => setValue("")
+
   return (
     <>
       <header className="flex justify-center py-4 ">
@@ -42,7 +44,7 @@ export default function Header() {
             <MovieIcon />
             Movie Z
           </Link>
-          <div className=" relative">
+          <div className=" relative flex justify-center">
             <div className="flex gap-[20px]">
               <ButtonDemo />
               <div className="">
@@ -57,8 +59,9 @@ export default function Header() {
             </div>
             {value.length !== 0 && (
               <>
+              <div className="w-screen flex justify-center top-[-20px] h-screen  absolute z-20" onClick={() => handleClick()}>
                 {searchMovie.length !== 0 ? (
-                  <div className="absolute z-40 top-12 bg-secondary rounded-xl w-full   shadow-md ">
+                  <div className="absolute z-40 top-16 bg-secondary rounded-xl w-[500px]   shadow-md ">
                     {searchMovie.slice(0, 5).map((searchMovie, index) => (
                       <Link
                         key={`searchMovieFive-${index}`}
@@ -100,10 +103,11 @@ export default function Header() {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex justify-center items-center absolute z-40 top-12 bg-secondary rounded-xl w-full h-[70px] font-bold   shadow-md ">
+                  <div className="flex justify-center items-center absolute z-40 top-16 bg-secondary rounded-xl w-[500px] h-[70px] font-bold   shadow-md ">
                     No results found.
                   </div>
                 )}
+                </div>
               </>
             )}
           </div>

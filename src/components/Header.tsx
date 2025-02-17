@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { getImgUrl, getSearchedMovies } from "@/utils";
 import { StarIcon } from "@/assets/svg/star-icon";
 import RightChevron from "@/assets/RightChevron";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type Movie = {
   poster_path: string;
@@ -19,11 +20,13 @@ type Movie = {
 };
 
 export default function Header() {
+    const searchParams = useSearchParams();
   const [value, setValue] = useState("");
   const [searchMovie, setSearchMovie] = useState<Movie[]>([]);
   console.log("ihrlifgweibglbvlibwvibviwrbvyb", value);
   const movieApiKey = "db430a8098715f8fab36009f57dff9fb";
   console.log(searchMovie);
+  const searchValue = searchParams.get("value")
 
   useEffect(() => {
     getSearchedMovies(value, 1).then((response) => {
@@ -31,8 +34,44 @@ export default function Header() {
     });
   }, [value]);
 
+  const router = useRouter()
+
+  const handleClickValue = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    console.log(searchValue);
+    
+    
+   
+      // console.log(genreID[0]);
+      // console.log(id.toString());
+      
+      
+    
+    
+  
+        params.set("value", value);
+        router.push(`/search?${params}`);
+        
+    
+  }
+
   const handleClick = () => setValue("")
 
+  const handleChangeValue = (e:React.ChangeEvent<HTMLInputElement>) => {
+ 
+   setValue(e.target.value)
+   
+      const params = new URLSearchParams(searchParams.toString());
+    
+    
+  
+        params.set("value", e.target.value);
+        if (window.location.pathname == "/search"){
+        router.push(`/search?${params}`);
+    
+    }
+
+  }
   return (
     <>
       <header className="flex justify-center py-4 ">
@@ -50,8 +89,8 @@ export default function Header() {
               <div className="">
                 <Input
                   type="text"
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
+                  value={value }
+                  onChange={(e) => handleChangeValue(e)}
                   placeholder="Search..."
                   className=" h-full  w-[300px]"
                 />
@@ -89,8 +128,8 @@ export default function Header() {
                                 <p className="text-sm">
                                   {searchMovie.release_date.split("-")[0]}
                                 </p>
-                                <p className="flex items-center justify-between text-sm">
-                                  see more <RightChevron />
+                                <p className="flex items-center justify-between text-sm ">
+                                  See more <RightChevron />
                                 </p>
                               </div>
                             </div>
@@ -98,9 +137,11 @@ export default function Header() {
                         </div>
                       </Link>
                     ))}
-                    <div className="px-3 py-2">
+                    
+                    <div onClick={() => handleClickValue()} className="px-3 py-2">
                       <p>See all results for "{value}"</p>
                     </div>
+                    
                   </div>
                 ) : (
                   <div className="flex justify-center items-center absolute z-40 top-16 bg-secondary rounded-xl w-[500px] h-[70px] font-bold   shadow-md ">
